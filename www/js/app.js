@@ -11,11 +11,14 @@ Vue.component('page-form', {
 Vue.component('page-dynamic-routing', {
   template: '#page-dynamic-routing'
 })
+Vue.component('new-user', {
+  template: '#new-user'
+})
 
 // Handle device ready event
 // Note: You may want to check out the vue-cordova package on npm for cordova specific handling with vue - https://www.npmjs.com/package/vue-cordova
 document.addEventListener('deviceready', () => {
-  console.log("DEVICE IS READY!");    
+  console.log("DEVICE IS READY!");
 }, false)
 
 // Init App
@@ -36,12 +39,13 @@ new Vue({
         component: 'page-form'
       },
       {
+        path: '/new-user',
+        component: 'new-user'
+      },
+      {
         path: '/dynamic-route/blog/:blogId/post/:postId/',
         component: 'page-dynamic-routing'
       }
     ],
   }
 });
-
-
-
