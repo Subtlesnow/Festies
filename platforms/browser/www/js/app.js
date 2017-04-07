@@ -11,8 +11,8 @@ Vue.component('page-form', {
 Vue.component('page-dynamic-routing', {
   template: '#page-dynamic-routing'
 })
-Vue.component('new-user', {
-  template: '#new-user'
+Vue.component('pictures', {
+  template: '#pictures'
 })
 
 // Handle device ready event
@@ -39,8 +39,8 @@ new Vue({
         component: 'page-form'
       },
       {
-        path: '/new-user',
-        component: 'new-user'
+        path: '/pictures/',
+        component: 'pictures'
       },
       {
         path: '/dynamic-route/blog/:blogId/post/:postId/',
