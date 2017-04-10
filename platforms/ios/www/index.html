@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
   <link rel="stylesheet" href="css/app.css">
 </head>
-<body class="layout-dark">
+<body class="layout-dark color-schema">
   <div id="app">
     <!-- Statusbar -->
     <!-- NOTE: You may need to comment out the next line depending on what device you're running on and see the app title cut off -->
@@ -29,16 +29,22 @@
         <f7-pages>
           <f7-page>
             <f7-block-title>Welcome to Festies!</f7-block-title>
-            <f7-block inner>
+            <!-- <f7-block inner> -->
               <f7-card content="" >
-                <img src="./img/festies_logo.png" alt="festies" width="70%" height="70%">
+                <img src="./img/festies_logo.png" alt="festies" width="50%" height="50%">
               </f7-card>
-            </f7-block>
+            <!-- </f7-block> -->
             <!-- <f7-block-title>Navigation</f7-block-title> -->
             <f7-list>
-              <f7-list-item link="/about/" title="About"></f7-list-item>
-              <f7-list-item link="/form/" title="Search"></f7-list-item>
+              <!-- <f7-list-item link="/about/" title="About"></f7-list-item> -->
+              <!-- <f7-list> -->
+                <f7-list-item>
+                  <f7-input @keyup.enter="enterChat" type="text" placeholder="Message" v-model:value="name">
+                </f7-list-item>
+                <f7-list-button v-on:click="enterChat">Message</f7-list-button>
+              <!-- </f7-list> -->
               <f7-list-item link="/pictures/" title="Pictures"></f7-list-item>
+              <!-- <f7-list-item link="/form/" title="Search"></f7-list-item> -->
 
             </f7-list>
               <!-- <f7-list-item link="/dynamic-route/blog/45/post/125/?foo=bar#about" title="Dynamic Route"></f7-list-item> -->
@@ -48,10 +54,10 @@
             <f7-block>
               <f7-grid>
                 <f7-col width="50">
-                  <f7-button open-popup="#popup">SIGN UP</f7-button>
+                  <f7-button color="gray" open-popup="#popup">SIGN UP</f7-button>
                 </f7-col>
                 <f7-col width="50">
-                  <f7-button open-login-screen="#login-screen">LOGIN</f7-button>
+                  <f7-button  color="gray" open-login-screen="#login-screen">LOGIN</f7-button>
                 </f7-col>
               </f7-grid>
             </f7-block>
@@ -70,17 +76,17 @@
                 <f7-link close-popup>Close</f7-link>
               </f7-nav-right>
             </f7-navbar>
-            <f7-block >Welcome!</f7-block>
-            <f7-block >Thank you for using Festies. Complete the following form to create your account.</f7-block>
+            <f7-block >Welcome! Become a Festie!</f7-block>
+            <!-- <f7-block > Become a Festie!.</f7-block> -->
             <f7-list form>
           <!-- Text Input -->
           <f7-list-item>
             <f7-label>User Name</f7-label>
-            <f7-input type="text" placeholder=" User Name"/>
+            <f7-input type="text"  @keyup.enter="enterApp" placeholder="User Name" />
           </f7-list-item>
           <!-- Password -->
           <f7-list-item>
-            <f7-label>Name</f7-label>
+            <f7-label>Password</f7-label>
             <f7-input type="password" placeholder="Password"/>
           </f7-list-item>
           <!-- Full Name -->
@@ -137,17 +143,21 @@
   <!-- About Page Template -->
   <template id="page-about">
     <f7-page>
-      <f7-navbar title="About" back-link="Back" sliding></f7-navbar>
-      <f7-block inner>
+      <f7-navbar title="Message" back-link="Back" sliding></f7-navbar>
+      <!-- <f7-block inner> -->
+        <f7-messages>
+          <f7-message v-for="msg in msgs" :name="msg.name" :text="msg.text" :type="msg.type"></f7-message>
+        </f7-messages>
+        <f7-messagebar placeholder="Message" send-link="Send" v-on:submit="onSend"></f7-messagebar>
         <!-- <f7-block inner> -->
-          <f7-card content="" >
+          <!-- <f7-card content="" >
             <img src="./img/festies_logo.png" alt="festies" width="50%" height="50%">
-          </f7-card>
+          </f7-card> -->
         <!-- </f7-block> -->
-        <h3>About Festies</h3>
-        <p>Festies is a social media platform that allows you to share your festival experience with those who attended the festival with you. Save your pictures, share them with the friends you meet.</p>
-        <p><i class="icon icon-back"></i><f7-link back>  Back</f7-link></p>
-      </f7-block>
+        <!-- <h3>About Festies</h3> -->
+        <!-- <p>Festies is a social media platform that allows you to share your festival experience with those who attended the festival with you. Save your pictures, share them with the friends you meet.</p> -->
+        <!-- <p><i class="icon icon-back"></i><f7-link back>  Back</f7-link></p> -->
+      <!-- </f7-block> -->
     </f7-page>
   </template>
 
@@ -155,17 +165,17 @@
   <template id="page-form">
     <f7-page>
       <f7-navbar title="Search" back-link="Back" sliding></f7-navbar>
-        <f7-searchbar cancel-link="Cancel" placeholder="Search Festies"></f7-searchbar>
+        <f7-searchbar cancel-link="Cancel" placeholder="Find Festies"></f7-searchbar>
         <!-- <f7-block-title>SEARCH</f7-block-title> -->
 
-      <!-- <f7-block-title>Buttons</f7-block-title> -->
-      <!-- <f7-block inner>
+      <f7-block-title>Buttons</f7-block-title>
+      <f7-block inner>
         <p>
           <f7-grid>
             <f7-col><f7-button big fill color="green">Send</f7-button></f7-col>
           </f7-grid>
         </p>
-      </f7-block> -->
+      </f7-block>
     </f7-page>
   </template>
 
@@ -200,33 +210,20 @@
   <!-- Pictures -->
   <template id="pictures">
     <f7-page>
-    <f7-navbar title="Pictures" back-link="Back" sliding></f7-navbar>
-    <f7-card title="Nine Inch Nails" content="{{  Your Picture!!!  }}" footer="So Amazing!" :inner="false"></f7-card>
-    <!-- <f7-list form> -->
-  <!-- Text Input -->
-  <!-- <f7-list-item>
-    <f7-label>User Name</f7-label>
-    <f7-input type="text" placeholder=" User Name"/> -->
-  <!-- </f7-list-item> -->
-  <!-- Password -->
-  <!-- <f7-list-item>
-    <f7-label>Name</f7-label>
-    <f7-input type="password" placeholder="Password"/>
-  </f7-list-item>
-  <f7-list-item>
-    <f7-label>Full Name</f7-label>
-    <f7-input type="text" placeholder="Full Name"/>
-  </f7-list-item>
-  <f7-list-item>
-    <f7-label>Name</f7-label>
-    <f7-input type="email" placeholder="Email"/>
-  </f7-list-item>
-  </f7-list> -->
-</f7-page>
+      <f7-navbar title="Pictures" back-link="Back" sliding></f7-navbar>
+      <img src="./img/nin_sample.jpg" alt="festies" width="100%" height="30%">
+      <img src="./img/nin_sample2.jpg" alt="festies" width="100%" height="30%">
+      <!-- <f7-card title="Nine Inch Nails" content="{{  Your Picture!!!  }}" footer="So Amazing!" :inner="false"></f7-card> -->
+
+    </f7-page>
 
   </template>
 
-  <script src="cordova.js"></script>
+  <!-- <template id="festies">
+    <f7-navbar title="Pictures" back-link="Back" sliding></f7-navbar>
+  </template> -->
+
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.8.0.js"></script>  <script src="cordova.js"></script>
   <script src="js/framework7.min.js"></script>
   <script src="js/vue.min.js"></script>
   <script src="js/framework7-vue.min.js"></script>
