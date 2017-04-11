@@ -15,6 +15,9 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Camera">
+        <param name="ios-package" value="CDVCamera" />
+    </feature>
     <name>helloworld</name>
     <description>
         This is the project created from the template: phonegap-template-framework7-vue.
@@ -45,4 +48,5 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
+    <preference name="CameraUsesGeolocation" value="false" />
 </widget>

@@ -1,3 +1,8 @@
+// import Vue from 'vue'
+// import VueFire from 'vuefire'
+// import App from './App'
+// Vue.use(VueFire)
+
 (function () {
 
   function init() {
@@ -18,9 +23,14 @@
 
     let states = {
       name: '',
-      msgs: []
+      msgs: [],
+      userName: '',
+      email: '',
+      password: '',
+      fullName: '',
+      eventLoc: ''
     };
-    // let userName = {};
+
 
     function initPubNub () {
       pubnub.addListener({
@@ -36,6 +46,7 @@
       });
 
       pubnub.history(pubNubSettings.history, function(status, response) {
+        console.log(status)
         let history = response.messages;
         for(var i = 0; i < history.length; i++) {
           var type = history[i].entry.name == states.name ? 'send' : 'received';
@@ -51,6 +62,11 @@
     // Init F7 Vue Plugin
     Vue.use(Framework7Vue)
 
+    // import Vue from 'vue'
+    // import VueFire from 'vuefire'
+    // import App from './App'
+    // Vue.use(VueFire)
+
     // Init Page Components
     Vue.component('page-about', {
       template: '#page-about',
@@ -58,8 +74,7 @@
         return states;
       },
       methods: {
-        // @param {string}
-        // @param {function} clear
+
         onSend: function(text, clear) {
           if(text.trim().length === 0) return;
           pubnub.publish({
@@ -74,18 +89,16 @@
       }
     });
 
-    // Vue.component('page-form', {
-    //   template: '#page-form'
-    //   data: function() {
-    //     return states = {};
-    //   },
-    //   methods: {
-    //     onSend: function (text, clear) {
-    //       if (text.trim().length === 0) return;
-    //       if (typeof clear == 'function') clear();
-    //     }
-    //   }
-    // });
+    Vue.component('page-form', {
+      template: '#page-form',
+      // data () {
+      //   userName: '',
+      //   password: '',
+      //   fullName: '',
+      //   email: ''
+      // }
+
+    });
 
     Vue.component('page-dynamic-routing', {
       template: '#page-dynamic-routing'
@@ -94,6 +107,11 @@
     Vue.component('pictures', {
       template: '#pictures'
     });
+
+    // import Vue from 'vue'
+    // import VueFire from 'vuefire'
+    // import App from './App'
+    // Vue.use(VueFire)
 
     // Init App
     new Vue({
@@ -111,7 +129,10 @@
           this.msgs.length = 0;
           this.$f7.mainView.router.load({url:"/about/"});
           initPubNub();
-        }
+        },
+        addData: function () {
+
+        },
       },
       // Init Framework7 by passing parameters here
       framework7: {
@@ -124,7 +145,7 @@
             component: 'page-about'
           },
           {
-            path: '/form/',
+            path: '/page-form/',
             component: 'page-form'
           },
           {
