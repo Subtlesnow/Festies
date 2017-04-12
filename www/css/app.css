@@ -1,6 +1,11 @@
 /* =========
 Your custom styles go here
  ========= */
-/*.color-schema {
+.madStyles {
   background-color: #4B5358;
-}*/
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  padding-top: 5%;
+}

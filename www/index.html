@@ -31,35 +31,35 @@
           <f7-page>
             <f7-block-title>Welcome to Festies!</f7-block-title>
             <!-- <f7-block inner> -->
-              <f7-card content="" >
-                <img src="./img/festies_logo.png" alt="festies" width="25%" height="25%">
+              <f7-card content="" class="logo">
+                <img src="./img/festies_logo.png" alt="festies" width="80%" height="80%">
               </f7-card>
             <!-- </f7-block> -->
             <!-- <f7-block-title>Navigation</f7-block-title> -->
-            <f7-list>
+            <f7-list v-if="showSignIn">
               <f7-list-item link="/pictures/" title="Pictures"></f7-list-item>
               <!-- <f7-list-item link="/about/" title="About"></f7-list-item> -->
               <f7-list-item link="/page-form/" title="Profile"></f7-list-item>
-              <!-- <f7-list> -->
+
                 <f7-list-item>
                   <f7-input @keyup.enter="enterChat" type="text" placeholder="Message" v-model:value="name">
                 </f7-list-item>
                 <f7-list-button v-on:click="enterChat">Start Chat</f7-list-button>
-              <!-- </f7-list> -->
+            </f7-list>
               <!-- <f7-list-item link="/pictures/" title="Pictures"></f7-list-item> -->
 
-            </f7-list>
-              <!-- <f7-list-item link="/dynamic-route/blog/45/post/125/?foo=bar#about" title="Dynamic Route"></f7-list-item> -->
-            <!-- </f7-list> -->
+            <!-- </f7-list>
+              <f7-list-item link="/dynamic-route/blog/45/post/125/?foo=bar#about" title="Dynamic Route"></f7-list-item>
+            </f7-list> -->
 
             <!-- <f7-block-title>Modals</f7-block-title> -->
-            <f7-block>
+            <f7-block v-if="!showSignIn">
               <f7-grid>
                 <f7-col width="50">
                   <f7-button color="gray" open-popup="#popup">SIGN UP</f7-button>
                 </f7-col>
                 <f7-col width="50">
-                  <f7-button  color="gray" open-login-screen="#login-screen">LOGIN</f7-button>
+                  <f7-button  color="gray" open-login-screen="#login-screen" >LOGIN</f7-button>
                 </f7-col>
               </f7-grid>
             </f7-block>
@@ -104,7 +104,7 @@
           <f7-block inner>
             <!-- <p> -->
               <f7-grid>
-                <f7-col><f7-button big fill color="green" v-on:click="addUser()">CREATE</f7-button></f7-col>
+                <f7-col><f7-button big fill color="green" close-popup v-on:click="addUser()">CREATE</f7-button></f7-col>
               </f7-grid>
             <!-- </p> -->
           </f7-block>
@@ -131,7 +131,7 @@
             </f7-list>
             <f7-list>
               <!-- <p><a href="#" class="button button-big button-fill color-gray" close-login-screen>Big Gray</a></p> -->
-              <f7-list-button title="Sign In" close-login-screen ></f7-list-button>
+              <f7-list-button title="Sign In" close-login-screen v-on:click="showMain"></f7-list-button>
               <f7-list-label>
                 <p>Click Sign In to close Login Screen</p>
               </f7-list-label>
@@ -149,7 +149,7 @@
       <!-- <f7-block inner> -->
         <f7-messages>
           <f7-message v-for="msg in msgs" :name="msg.name" :text="msg.text" :type="msg.type"></f7-message>
-          
+
         </f7-messages>
         <f7-messagebar placeholder="Message" send-link="Send" v-on:submit="onSend"></f7-messagebar>
     </f7-page>

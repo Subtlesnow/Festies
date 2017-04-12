@@ -8,7 +8,6 @@
       subscribeKey: 'sub-c-3529421e-1e0d-11e7-aca9-02ee2ddab7fe'
     });
 
-
     let states = {
       name: '',
       msgs: [],
@@ -16,7 +15,8 @@
       email: '',
       password: '',
       fullName: '',
-      eventLoc: ''
+      eventLoc: '',
+      showSignIn: false
     };
 
 
@@ -36,7 +36,6 @@
     pubnub.subscribe({
       channels: ['Festies']
     });
-
 
     };
 
@@ -64,7 +63,8 @@
         });
 
           if(typeof clear == 'function') clear();
-        }
+        },
+
       }
     });
 
@@ -98,6 +98,9 @@
         return states;
       },
       methods: {
+        showMain: function() {
+          this.showSignIn = true
+        },
         enterChat: function () {
           console.log(states)
           if(this.name.trim().length === 0) {
@@ -110,13 +113,19 @@
         },
         addUser: function() {
           console.log(states)
-          this.states.push({
-            userName: '',
-            password: '',
-            fullName: '',
-            email: ''
-          })
-        }
+          this.showMain()
+        },
+
+        // camera stuff
+        initialize: function() {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    },
+          onDeviceReady: function() {
+            this.receivedEvent('deviceready')
+            console.log("Camera")
+          },
+          // end of camera stuff
+
       },
       // Init Framework7 by passing parameters here
       framework7: {
@@ -151,5 +160,13 @@
   document.addEventListener('deviceready', init, () => {
     console.log("DEVICE IS READY!");
   }, false)
+
+  // Camera stuff
+  document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+    console.log(navigator.camera);
+  }
+
+
 
 })();
