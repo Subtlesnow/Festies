@@ -104,7 +104,7 @@
           <f7-block inner>
             <!-- <p> -->
               <f7-grid>
-                <f7-col><f7-button big fill color="green" >CREATE</f7-button></f7-col>
+                <f7-col><f7-button big fill color="green" v-on:click="addUser()">CREATE</f7-button></f7-col>
               </f7-grid>
             <!-- </p> -->
           </f7-block>
@@ -149,6 +149,7 @@
       <!-- <f7-block inner> -->
         <f7-messages>
           <f7-message v-for="msg in msgs" :name="msg.name" :text="msg.text" :type="msg.type"></f7-message>
+          
         </f7-messages>
         <f7-messagebar placeholder="Message" send-link="Send" v-on:submit="onSend"></f7-messagebar>
     </f7-page>

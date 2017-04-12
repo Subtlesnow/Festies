@@ -1,25 +1,13 @@
-// import Vue from 'vue'
-// import VueFire from 'vuefire'
-// import App from './App'
-// Vue.use(VueFire)
 
 (function () {
 
   function init() {
 
-    let pubNubSettings = {
-      channels: ['mychannel']
-    };
-
-    pubNubSettings.history = {
-      channel: pubNubSettings[0],
-      count: 20
-    };
-
     let pubnub = new PubNub({
-      publishKey: 'demo',
-      subscribeKey: 'demo'
+      publishKey: 'pub-c-418abb4a-5912-4014-a14c-8cc4d27c5534',
+      subscribeKey: 'sub-c-3529421e-1e0d-11e7-aca9-02ee2ddab7fe'
     });
+
 
     let states = {
       name: '',
@@ -33,39 +21,28 @@
 
 
     function initPubNub () {
+
       pubnub.addListener({
-        message: function(data) {
-          let type = data.message.name == states.name ? 'sent' : 'received';
-          let name = type == 'sent' ? states.name : data.message.name;
-          states.msgs.push({name:name, text: data.message.text, type:type});
-        }
-      });
+        message: function(message){
 
-      pubnub.subscribe({
-        channels: pubNubSettings.channels,
-      });
+              let type = message.message.name == states.name ? 'sent' : 'received';
+              let name = type == 'sent' ? states.name : message.message.name;
+              states.msgs.push({name:name, text: message.message.text, type:type});
 
-      pubnub.history(pubNubSettings.history, function(status, response) {
-        console.log(status)
-        let history = response.messages;
-        for(var i = 0; i < history.length; i++) {
-          var type = history[i].entry.name == states.name ? 'send' : 'received';
-          states.msgs.push({
-            name: history[i].entry.name,
-            text: history[i].entry.text,
-            type: type
-          });
-        }
-      });
+        console.log(message)
+      }
+    })
+
+    pubnub.subscribe({
+      channels: ['Festies']
+    });
+
+
     };
 
     // Init F7 Vue Plugin
     Vue.use(Framework7Vue)
 
-    // import Vue from 'vue'
-    // import VueFire from 'vuefire'
-    // import App from './App'
-    // Vue.use(VueFire)
 
     // Init Page Components
     Vue.component('page-about', {
@@ -77,13 +54,15 @@
 
         onSend: function(text, clear) {
           if(text.trim().length === 0) return;
+
           pubnub.publish({
-            channel: pubNubSettings.channels[0],
-            messages: {
+            message: {
               text: text,
               name: this.name
-            }
-          });
+        },
+          channel: 'Festies'
+        });
+
           if(typeof clear == 'function') clear();
         }
       }
@@ -91,11 +70,14 @@
 
     Vue.component('page-form', {
       template: '#page-form',
-      // data () {
-      //   userName: '',
-      //   password: '',
-      //   fullName: '',
-      //   email: ''
+      // data () ,
+      // addUser: function() {
+      //   states.push({
+      //     userName: '',
+      //     password: '',
+      //     fullName: '',
+      //     email: ''
+      //   })
       // }
 
     });
@@ -108,10 +90,6 @@
       template: '#pictures'
     });
 
-    // import Vue from 'vue'
-    // import VueFire from 'vuefire'
-    // import App from './App'
-    // Vue.use(VueFire)
 
     // Init App
     new Vue({
@@ -130,9 +108,15 @@
           this.$f7.mainView.router.load({url:"/about/"});
           initPubNub();
         },
-        addData: function () {
-
-        },
+        addUser: function() {
+          console.log(states)
+          this.states.push({
+            userName: '',
+            password: '',
+            fullName: '',
+            email: ''
+          })
+        }
       },
       // Init Framework7 by passing parameters here
       framework7: {
